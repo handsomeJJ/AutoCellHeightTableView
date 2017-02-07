@@ -206,10 +206,6 @@
 				FA23ABF41E48556F00231800 /* xibCell.xib */,
 				FA31A3A31E49A07B0004AAF6 /* photoView.h */,
 				FA31A3A41E49A07B0004AAF6 /* photoView.m */,
-				FA23ABC21E48523100231800 /* Main.storyboard */,
-				FA23ABC51E48523100231800 /* Assets.xcassets */,
-				FA23ABC71E48523100231800 /* LaunchScreen.storyboard */,
-				FA23ABCA1E48523100231800 /* Info.plist */,
 				FA23ABB91E48523100231800 /* Supporting Files */,
 			);
 			path = AutoCellHeightTableView;
@@ -218,6 +214,10 @@
 		FA23ABB91E48523100231800 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				FA23ABC21E48523100231800 /* Main.storyboard */,
+				FA23ABC51E48523100231800 /* Assets.xcassets */,
+				FA23ABC71E48523100231800 /* LaunchScreen.storyboard */,
+				FA23ABCA1E48523100231800 /* Info.plist */,
 				FA31A3DD1E49B4230004AAF6 /* AlbumOperateMore@2x.png */,
 				FA31A3DE1E49B4230004AAF6 /* AlbumOperateMore@3x.png */,
 				FA31A3E11E49B42B0004AAF6 /* AlbumOperateMoreHL@2x.png */,
