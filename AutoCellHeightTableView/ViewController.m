@@ -9,7 +9,8 @@
 #import "ViewController.h"
 #import "ListModel.h"
 #import "xibCell.h"
-
+#import "albumOperateView.h"
+#import "YYFPSLabel.h"
 
 @interface ViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property(strong,nonatomic)UITableView *tableView;
@@ -24,6 +25,8 @@
 
     [self.view addSubview:self.tableView];
 
+    self.title = @"朋友圈";
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:[[YYFPSLabel alloc]initWithFrame:CGRectMake(0, 5, 60, 30)]];
 }
 #pragma mark -- delegate
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -53,9 +56,44 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.model = self.infoArr[indexPath.row];
 
+//    __weak typeof (self) weakSelf = self;
+    cell.block = ^(xibCell *xibCe, NSInteger tag){
+      
+        NSLog(@"--%ld--",tag);
+        for (UIView *view in [xibCe subviews]) {
+            if ([view isKindOfClass:[albumOperateView class]]) {
+                [view removeFromSuperview];
+
+            }
+        }
+        if (tag == 10) {
+            
+            
+        }else if (tag == 11){
+            
+            NSLog(@"点赞事件");
+            
+        }else if (tag == 12){
+            
+            NSLog(@"评论事件");
+        }
+        
+        
+    };
+    
     return cell;
 }
-
+-(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    
+    // 移除opView
+    
+    
+}
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    
+    // 移除opView
+    
+}
 #pragma mark -- get
 -(UITableView *)tableView{
     if (!_tableView) {
@@ -88,7 +126,7 @@
         NSArray *imagesArr = @[@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"];
         
         NSArray *name = @[@"特立独行的猪",@"小岳岳",@"大长今",@"文常",@"宋小宝",@"吴秀波",@"郭麒麟"];
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < 10; i++)
         {
             ListModel *model = [[ListModel alloc] init];
             NSInteger index = (arc4random()%(string.length / 20)) * 20;
@@ -98,6 +136,20 @@
                         
             model.imagesArr = [[imagesArr subarrayWithRange:NSMakeRange(0, arc4random() % 10)]mutableCopy];
             
+            if (i % 3 == 0) {
+                NSArray *array = @[@"宋小宝",@"吴秀波",@"郭麒麟"];
+                model.likesArr = [array mutableCopy];
+                
+            }
+            
+            NSDictionary *dict = @{@"nickname":@"吴秀波",@"toNickname":@"",@"content":@"楼主长的真帅-----"};
+            NSDictionary *dict1 = @{@"nickname":@"宋小宝",@"toNickname":@"吴秀波",@"content":@"怪我咯傻逼---"};
+            NSDictionary *dict2 = @{@"nickname":@"吴秀波",@"toNickname":@"宋小宝",@"content":@"就怪你啊大傻逼---"};
+            NSDictionary *dict3 = @{@"nickname":@"常远",@"toNickname":@"",@"content":@"你们都是大傻逼，谁也别让这谁---"};
+            NSDictionary *dict4 = @{@"nickname":@"岳云鹏",@"toNickname":@"",@"content":@"人的精神和外貌都改变成这样了，随时随地精神百倍！这些人现在干点啥都发朋友圈，简直都想屏蔽她们---"};
+            NSArray *commentArr = [NSArray arrayWithObjects:dict2,dict1,dict,dict3,dict4, nil];
+            model.commentArr = [commentArr mutableCopy];
+  
             [_infoArr addObject:model];
         }
     }

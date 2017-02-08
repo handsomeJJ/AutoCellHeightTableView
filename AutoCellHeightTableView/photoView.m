@@ -31,7 +31,7 @@
     NSLog(@"--%@--",imagesArr);
     
     NSInteger count = imagesArr.count;
-    CGFloat padding = 10;
+    CGFloat padding = 5;
     CGFloat imageContentViewWidth = [UIScreen mainScreen].bounds.size.width - 90;
     CGFloat imageWidth = (imageContentViewWidth - padding * 4) / 3;
     CGFloat imageHeight = imageWidth;

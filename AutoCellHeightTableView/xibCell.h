@@ -7,10 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-@class ListModel;
+@class ListModel,xibCell;
+
+typedef void (^cellBlock)(xibCell *cell, NSInteger tag);
 
 @interface xibCell : UITableViewCell
 
 @property(strong,nonatomic)ListModel *model;
 
+@property(copy,nonatomic)cellBlock block;
 @end

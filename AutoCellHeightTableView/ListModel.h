@@ -12,4 +12,11 @@
 @property(copy,nonatomic)NSString *desc;
 @property(copy,nonatomic)NSString *title;
 @property(strong,nonatomic)NSMutableArray *imagesArr;
+
+
+@property(assign,nonatomic)BOOL isLike;
+@property(strong,nonatomic)NSMutableArray *likesArr;
+
+@property(strong,nonatomic)NSMutableArray *commentArr;
+
 @end

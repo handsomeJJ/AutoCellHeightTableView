@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="albumOperateView">
+            <rect key="frame" x="0.0" y="0.0" width="150" height="40"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eUN-FY-XFy">
+                    <rect key="frame" x="0.0" y="0.0" width="150" height="40"/>
+                    <subviews>
+                        <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1PR-7e-I1n">
+                            <rect key="frame" x="76" y="0.0" width="74" height="40"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                            <state key="normal" title="评论" image="AlbumComment"/>
+                            <connections>
+                                <action selector="commentAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="iRh-Bm-0Gl"/>
+                            </connections>
+                        </button>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XwZ-jI-Obq">
+                            <rect key="frame" x="75" y="12" width="1" height="16"/>
+                            <color key="backgroundColor" red="0.12156862745098039" green="0.13333333333333333" blue="0.14117647058823529" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="1" id="eLd-bP-V0h"/>
+                            </constraints>
+                        </view>
+                        <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LSR-gj-Ukj">
+                            <rect key="frame" x="0.0" y="0.0" width="75" height="40"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                            <state key="normal" title="赞" image="AlbumLike"/>
+                            <connections>
+                                <action selector="likeAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="QSA-lC-54N"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" red="0.23137254901960785" green="0.25098039215686274" blue="0.25882352941176467" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="1PR-7e-I1n" secondAttribute="trailing" id="42a-Pw-BJZ"/>
+                        <constraint firstItem="XwZ-jI-Obq" firstAttribute="leading" secondItem="LSR-gj-Ukj" secondAttribute="trailing" id="6NK-4O-eBF"/>
+                        <constraint firstAttribute="bottom" secondItem="XwZ-jI-Obq" secondAttribute="bottom" constant="12" id="98O-1U-Bv0"/>
+                        <constraint firstItem="LSR-gj-Ukj" firstAttribute="top" secondItem="eUN-FY-XFy" secondAttribute="top" id="BE3-yU-0K4"/>
+                        <constraint firstItem="XwZ-jI-Obq" firstAttribute="centerX" secondItem="eUN-FY-XFy" secondAttribute="centerX" id="HDp-eL-axt"/>
+                        <constraint firstItem="XwZ-jI-Obq" firstAttribute="top" secondItem="eUN-FY-XFy" secondAttribute="top" constant="12" id="J6w-Si-EBi"/>
+                        <constraint firstItem="1PR-7e-I1n" firstAttribute="top" secondItem="eUN-FY-XFy" secondAttribute="top" id="YOf-Up-MIg"/>
+                        <constraint firstItem="1PR-7e-I1n" firstAttribute="leading" secondItem="XwZ-jI-Obq" secondAttribute="trailing" id="eaQ-U5-C3X"/>
+                        <constraint firstAttribute="bottom" secondItem="LSR-gj-Ukj" secondAttribute="bottom" id="mMH-YQ-gge"/>
+                        <constraint firstItem="LSR-gj-Ukj" firstAttribute="leading" secondItem="eUN-FY-XFy" secondAttribute="leading" id="sK3-4V-ipN"/>
+                        <constraint firstAttribute="bottom" secondItem="1PR-7e-I1n" secondAttribute="bottom" id="yk5-TG-gTD"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="eUN-FY-XFy" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="451-Te-piY"/>
+                <constraint firstItem="eUN-FY-XFy" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="E2I-OM-ua8"/>
+                <constraint firstAttribute="bottom" secondItem="eUN-FY-XFy" secondAttribute="bottom" id="XNq-Hf-mKV"/>
+                <constraint firstAttribute="trailing" secondItem="eUN-FY-XFy" secondAttribute="trailing" id="gG3-cK-Qqn"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="commentBtn" destination="1PR-7e-I1n" id="0rK-MI-FF5"/>
+                <outlet property="likeBtn" destination="LSR-gj-Ukj" id="Kel-4T-UbQ"/>
+            </connections>
+            <point key="canvasLocation" x="-34" y="119.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="AlbumComment" width="20" height="20"/>
+        <image name="AlbumLike" width="20" height="20"/>
+    </resources>
+</document>
