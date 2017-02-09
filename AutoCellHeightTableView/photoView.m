@@ -10,6 +10,9 @@
 #import "SDPhotoBrowser.h"
 #import "UIImageView+WebCache.h"
 
+#define kScreenWidth ([UIScreen mainScreen].bounds.size.width)
+#define VIEWWIDTH (kScreenWidth - 90)
+
 @interface photoView ()<SDPhotoBrowserDelegate>
 @property(strong,nonatomic)NSMutableArray *imageArr;
 @end
@@ -32,7 +35,7 @@
     
     NSInteger count = imagesArr.count;
     CGFloat padding = 5;
-    CGFloat imageContentViewWidth = [UIScreen mainScreen].bounds.size.width - 90;
+    CGFloat imageContentViewWidth = VIEWWIDTH;
     CGFloat imageWidth = (imageContentViewWidth - padding * 4) / 3;
     CGFloat imageHeight = imageWidth;
     

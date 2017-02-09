@@ -54,9 +54,10 @@
         cell = [[[NSBundle mainBundle]loadNibNamed:@"xibCell" owner:self options:nil]lastObject];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.model = self.infoArr[indexPath.row];
+    ListModel *model = self.infoArr[indexPath.row];
+    cell.model = model;
 
-//    __weak typeof (self) weakSelf = self;
+    __weak typeof (self) weakSelf = self;
     cell.block = ^(xibCell *xibCe, NSInteger tag){
       
         NSLog(@"--%ld--",tag);
@@ -72,6 +73,11 @@
         }else if (tag == 11){
             
             NSLog(@"点赞事件");
+            NSMutableArray *likesArr = model.likesArr;
+            [likesArr addObject:@"你爸爸"];
+
+            
+            [weakSelf.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
             
         }else if (tag == 12){
             
@@ -97,7 +103,7 @@
 #pragma mark -- get
 -(UITableView *)tableView{
     if (!_tableView) {
-        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height) style:UITableViewStyleGrouped];
+        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height) style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.backgroundColor = [UIColor whiteColor];
@@ -136,11 +142,11 @@
                         
             model.imagesArr = [[imagesArr subarrayWithRange:NSMakeRange(0, arc4random() % 10)]mutableCopy];
             
-            if (i % 3 == 0) {
-                NSArray *array = @[@"宋小宝",@"吴秀波",@"郭麒麟"];
+            if (i) {
+                NSArray *array = @[@"宋小宝",@"吴秀波",@"郭麒麟",@"宋小宝",@"吴秀波",@"郭麒麟",@"宋小宝",@"吴秀波",@"郭麒麟",@"宋小宝",@"吴秀波",@"郭麒麟",@"宋小宝",@"吴秀波",@"郭麒麟"];
                 model.likesArr = [array mutableCopy];
-                
             }
+            
             
             NSDictionary *dict = @{@"nickname":@"吴秀波",@"toNickname":@"",@"content":@"楼主长的真帅-----"};
             NSDictionary *dict1 = @{@"nickname":@"宋小宝",@"toNickname":@"吴秀波",@"content":@"怪我咯傻逼---"};
@@ -148,7 +154,10 @@
             NSDictionary *dict3 = @{@"nickname":@"常远",@"toNickname":@"",@"content":@"你们都是大傻逼，谁也别让这谁---"};
             NSDictionary *dict4 = @{@"nickname":@"岳云鹏",@"toNickname":@"",@"content":@"人的精神和外貌都改变成这样了，随时随地精神百倍！这些人现在干点啥都发朋友圈，简直都想屏蔽她们---"};
             NSArray *commentArr = [NSArray arrayWithObjects:dict2,dict1,dict,dict3,dict4, nil];
-            model.commentArr = [commentArr mutableCopy];
+            if (i % 3) {
+                model.commentArr = [commentArr mutableCopy];
+            }
+            
   
             [_infoArr addObject:model];
         }

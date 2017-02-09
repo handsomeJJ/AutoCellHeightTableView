@@ -85,6 +85,8 @@
 		FA9CBF511E4B03A4007D5BCF /* YYLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = FA9CBF2B1E4B03A4007D5BCF /* YYLabel.m */; };
 		FA9CBF521E4B03A4007D5BCF /* YYTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA9CBF2E1E4B03A4007D5BCF /* YYTextView.m */; };
 		FA9CBF531E4B03A4007D5BCF /* YYWeakProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = FA9CBF301E4B03A4007D5BCF /* YYWeakProxy.m */; };
+		FAC326A71E4BF34400047FCC /* commentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC326A51E4BF34400047FCC /* commentCell.m */; };
+		FAC326A81E4BF34400047FCC /* commentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FAC326A61E4BF34400047FCC /* commentCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -251,6 +253,9 @@
 		FA9CBF2E1E4B03A4007D5BCF /* YYTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYTextView.m; sourceTree = "<group>"; };
 		FA9CBF2F1E4B03A4007D5BCF /* YYWeakProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYWeakProxy.h; sourceTree = "<group>"; };
 		FA9CBF301E4B03A4007D5BCF /* YYWeakProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYWeakProxy.m; sourceTree = "<group>"; };
+		FAC326A41E4BF34400047FCC /* commentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = commentCell.h; sourceTree = "<group>"; };
+		FAC326A51E4BF34400047FCC /* commentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = commentCell.m; sourceTree = "<group>"; };
+		FAC326A61E4BF34400047FCC /* commentCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = commentCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -426,6 +431,9 @@
 				FA9CBEDC1E4AA9BF007D5BCF /* albumOperateView.xib */,
 				FA9CBEDE1E4AC155007D5BCF /* commentTableView.h */,
 				FA9CBEDF1E4AC155007D5BCF /* commentTableView.m */,
+				FAC326A41E4BF34400047FCC /* commentCell.h */,
+				FAC326A51E4BF34400047FCC /* commentCell.m */,
+				FAC326A61E4BF34400047FCC /* commentCell.xib */,
 			);
 			name = view;
 			sourceTree = "<group>";
@@ -665,6 +673,7 @@
 				FA31A39E1E499A4D0004AAF6 /* 5.png in Resources */,
 				FA31A3A01E499A4D0004AAF6 /* 7.png in Resources */,
 				FA23ABC91E48523100231800 /* LaunchScreen.storyboard in Resources */,
+				FAC326A81E4BF34400047FCC /* commentCell.xib in Resources */,
 				FA23ABC61E48523100231800 /* Assets.xcassets in Resources */,
 				FA31A39B1E499A4D0004AAF6 /* 2.png in Resources */,
 				FA31A39C1E499A4D0004AAF6 /* 3.png in Resources */,
@@ -748,6 +757,7 @@
 				FA9CBF341E4B03A4007D5BCF /* YYTextInput.m in Sources */,
 				FA9CBF3D1E4B03A4007D5BCF /* YYTextRubyAnnotation.m in Sources */,
 				FA9CBF331E4B03A4007D5BCF /* YYTextEffectWindow.m in Sources */,
+				FAC326A71E4BF34400047FCC /* commentCell.m in Sources */,
 				FA9CBF3F1E4B03A4007D5BCF /* CALayer+YYAdd.m in Sources */,
 				FA9CBEE21E4ACD90007D5BCF /* Foundation+Log.m in Sources */,
 				FA9CBF491E4B03A4007D5BCF /* UIView+YYAdd.m in Sources */,

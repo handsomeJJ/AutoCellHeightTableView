@@ -10,10 +10,10 @@
 
 @interface commentTableView : UIView
 
-@property(strong,nonatomic)NSMutableArray *likeArr;
+@property(strong,nonatomic)NSString *likeStr;
 @property(strong,nonatomic)NSMutableArray *commentArr;
 
 
--(CGFloat)configWithlikes:(NSMutableArray *)likesArr comments:(NSMutableArray *)commentArr;
+-(CGFloat)configWithlikes:(NSMutableArray *)likeArr comments:(NSMutableArray *)commentArr;
 
 @end
