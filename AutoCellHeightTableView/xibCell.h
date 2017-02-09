@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 @class ListModel,xibCell;
 
-typedef void (^cellBlock)(xibCell *cell, NSInteger tag);
+typedef void (^cellBlock)(xibCell *cell, NSInteger tag, NSIndexPath *indexPath);
 
 @interface xibCell : UITableViewCell
 

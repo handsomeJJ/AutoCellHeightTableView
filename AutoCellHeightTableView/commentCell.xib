@@ -19,7 +19,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="小岳岳：怪我咯" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cYO-Cq-yH6">
-                        <rect key="frame" x="10" y="5" width="300" height="33.5"/>
+                        <rect key="frame" x="5" y="5" width="310" height="33.5"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <nil key="textColor"/>
@@ -29,9 +29,9 @@
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 <constraints>
                     <constraint firstItem="cYO-Cq-yH6" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="Qqz-f6-VHq"/>
-                    <constraint firstItem="cYO-Cq-yH6" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="ZgT-MQ-Yoo"/>
+                    <constraint firstItem="cYO-Cq-yH6" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="5" id="ZgT-MQ-Yoo"/>
                     <constraint firstAttribute="bottom" secondItem="cYO-Cq-yH6" secondAttribute="bottom" constant="5" id="nVA-HR-hCr"/>
-                    <constraint firstAttribute="trailing" secondItem="cYO-Cq-yH6" secondAttribute="trailing" constant="10" id="vuW-QY-xwS"/>
+                    <constraint firstAttribute="trailing" secondItem="cYO-Cq-yH6" secondAttribute="trailing" constant="5" id="vuW-QY-xwS"/>
                 </constraints>
             </tableViewCellContentView>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>

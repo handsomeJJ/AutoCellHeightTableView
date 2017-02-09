@@ -100,7 +100,10 @@
     [view addSubview:lab];
     
     // 底部线条
-    
+    UIView *lineV = [[UIView alloc]init];
+    lineV.frame = CGRectMake(0, CGRectGetMaxY(lab.frame) - 3, VIEWWIDTH, 1);
+    lineV.backgroundColor = [UIColor colorWithRed:209/255.0 green:209/255.0 blue:209/255.0 alpha:1.0];
+    [view addSubview:lineV];
     
     return view;
 }
@@ -110,11 +113,6 @@
     
     
     return view;
-}
--(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
-    // 记录cell高度
-    
-    
 }
 -(CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 20;
@@ -128,6 +126,11 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     NSLog(@"--indexpath--%ld",indexPath.row);
+    
+    if (self.block) {
+        self.block(indexPath);
+    }
+    
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return self.commentArr.count;

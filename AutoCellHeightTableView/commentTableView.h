@@ -8,11 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void (^clickCommentBlock)(NSIndexPath *indexPath);
+
 @interface commentTableView : UIView
 
 @property(strong,nonatomic)NSString *likeStr;
 @property(strong,nonatomic)NSMutableArray *commentArr;
 
+@property(copy,nonatomic)clickCommentBlock block;
 
 -(CGFloat)configWithlikes:(NSMutableArray *)likeArr comments:(NSMutableArray *)commentArr;
 

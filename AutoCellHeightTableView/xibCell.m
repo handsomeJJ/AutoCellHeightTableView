@@ -38,6 +38,13 @@
     self.imageHeight.constant = [self.photoView configImage:model.imagesArr];
     
     self.commentTabHeight.constant = [self.cmtTableView configWithlikes:model.likesArr comments:model.commentArr];
+    __weak typeof(self) weakSelf = self;
+    self.cmtTableView.block = ^(NSIndexPath *indexPath){
+      
+        if (weakSelf.block) {
+            weakSelf.block(self,0,indexPath);
+        }
+    };
     
 }
 - (IBAction)albumOperateAction:(UIButton *)sender {
@@ -47,7 +54,7 @@
             
             // 回调到控制器更新改行cell，销毁opView
             if (self.block) {
-                self.block(self,10);
+                self.block(self,10,nil);
             }
             
         }else{
@@ -67,12 +74,12 @@
                 if (sender.tag == 1) {
                     // 点赞
                     if (weakSelf.block) {
-                        weakSelf.block(weakSelf,11);
+                        weakSelf.block(weakSelf,11,nil);
                     }
                 }else if(sender.tag == 3){
                     // 评论
                     if (weakSelf.block) {
-                        weakSelf.block(weakSelf,12);
+                        weakSelf.block(weakSelf,12,nil);
                     }
                 }
                 

@@ -58,7 +58,7 @@
     cell.model = model;
 
     __weak typeof (self) weakSelf = self;
-    cell.block = ^(xibCell *xibCe, NSInteger tag){
+    cell.block = ^(xibCell *xibCe, NSInteger tag, NSIndexPath *commentPath){
       
         NSLog(@"--%ld--",tag);
         for (UIView *view in [xibCe subviews]) {
@@ -73,15 +73,16 @@
         }else if (tag == 11){
             
             NSLog(@"点赞事件");
-            NSMutableArray *likesArr = model.likesArr;
-            [likesArr addObject:@"你爸爸"];
-
             
-            [weakSelf.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
             
         }else if (tag == 12){
             
-            NSLog(@"评论事件");
+            NSLog(@"评论楼主");
+            
+        }else if(tag == 0){
+            
+            NSLog(@"评论第--%ld--条回复",commentPath.row);
+            
         }
         
         
