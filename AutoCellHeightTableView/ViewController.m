@@ -161,8 +161,7 @@
         {
             ListModel *model = [[ListModel alloc] init];
             NSInteger index = (arc4random()%(string.length / 20)) * 20;
-//            model.desc = [string substringToIndex:MAX(20, index)];
-            model.desc = @"1";
+            model.desc = [string substringToIndex:MAX(20, index)];
             
             model.title = name[arc4random() % 6];
                         
