@@ -19,4 +19,8 @@
 
 @property(strong,nonatomic)NSMutableArray *commentArr;
 
+
+//cell高度值
+@property(assign,nonatomic)NSInteger cellHeight;
+
 @end

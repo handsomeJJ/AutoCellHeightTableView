@@ -87,7 +87,6 @@
     browser.imageCount = self.imageArr.count;
     browser.sourceImagesContainerView = self;
     [browser show];
-    
 }
 #pragma mark - SDPhotoBrowserDelegate
 

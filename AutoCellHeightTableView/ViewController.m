@@ -49,7 +49,7 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     static NSString *ID = @"mjcell";
-    xibCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
+    __weak xibCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
     if (!cell) {
         cell = [[[NSBundle mainBundle]loadNibNamed:@"xibCell" owner:self options:nil]lastObject];
     }
@@ -60,6 +60,11 @@
     __weak typeof (self) weakSelf = self;
     cell.block = ^(xibCell *xibCe, NSInteger tag, NSIndexPath *commentPath){
       
+        // 拿到currentModel
+        NSIndexPath *currentIndex = [weakSelf.tableView indexPathForCell:xibCe];
+        
+        ListModel *currentModel = weakSelf.infoArr[currentIndex.row];
+        
         NSLog(@"--%ld--",tag);
         for (UIView *view in [xibCe subviews]) {
             if ([view isKindOfClass:[albumOperateView class]]) {
@@ -73,11 +78,29 @@
         }else if (tag == 11){
             
             NSLog(@"点赞事件");
+            NSMutableArray *likesArr = currentModel.likesArr;
+            [likesArr addObject:@"我是你大爷"];
+            currentModel.likesArr = likesArr;
+            cell.model = currentModel;
+            
+            [weakSelf.tableView reloadRowsAtIndexPaths:@[currentIndex] withRowAnimation:UITableViewRowAnimationNone];
+
+            [weakSelf.tableView scrollToRowAtIndexPath:currentIndex atScrollPosition:UITableViewScrollPositionBottom animated:YES];
             
             
         }else if (tag == 12){
             
             NSLog(@"评论楼主");
+            NSDictionary *dict = @{@"nickname":@"吴秀秀秀秀秀秀秀波",@"toNickname":@"",@"content":@"楼主长的真TM帅-----人见人爱，花见花开，车见车爆胎=="};
+            
+            NSMutableArray *commentArr = currentModel.commentArr;
+            [commentArr addObject:dict];
+            currentModel.commentArr = commentArr;
+            cell.model = currentModel;
+            
+            [weakSelf.tableView reloadRowsAtIndexPaths:@[currentIndex] withRowAnimation:UITableViewRowAnimationNone];
+
+            [weakSelf.tableView scrollToRowAtIndexPath:currentIndex atScrollPosition:UITableViewScrollPositionBottom animated:YES];
             
         }else if(tag == 0){
             
@@ -104,7 +127,8 @@
 #pragma mark -- get
 -(UITableView *)tableView{
     if (!_tableView) {
-        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height) style:UITableViewStylePlain];
+        _tableView = [[UITableView alloc]init];
+        _tableView.frame = self.view.bounds;
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.backgroundColor = [UIColor whiteColor];
@@ -137,15 +161,18 @@
         {
             ListModel *model = [[ListModel alloc] init];
             NSInteger index = (arc4random()%(string.length / 20)) * 20;
-            model.desc = [string substringToIndex:MAX(20, index)];
+//            model.desc = [string substringToIndex:MAX(20, index)];
+            model.desc = @"1";
             
             model.title = name[arc4random() % 6];
                         
             model.imagesArr = [[imagesArr subarrayWithRange:NSMakeRange(0, arc4random() % 10)]mutableCopy];
             
-            if (i) {
-                NSArray *array = @[@"宋小宝",@"吴秀波",@"郭麒麟",@"宋小宝",@"吴秀波",@"郭麒麟",@"宋小宝",@"吴秀波",@"郭麒麟",@"宋小宝",@"吴秀波",@"郭麒麟",@"宋小宝",@"吴秀波",@"郭麒麟"];
+            if (i % 2) {
+                NSArray *array = @[@"宋小宝",@"吴秀波",@"郭麒麟"];
                 model.likesArr = [array mutableCopy];
+            }else{
+                model.likesArr = [NSMutableArray array];
             }
             
             
@@ -157,6 +184,8 @@
             NSArray *commentArr = [NSArray arrayWithObjects:dict2,dict1,dict,dict3,dict4, nil];
             if (i % 3) {
                 model.commentArr = [commentArr mutableCopy];
+            }else{
+                model.commentArr = [NSMutableArray array];
             }
             
   

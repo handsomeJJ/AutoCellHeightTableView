@@ -16,4 +16,5 @@ typedef void (^cellBlock)(xibCell *cell, NSInteger tag, NSIndexPath *indexPath);
 @property(strong,nonatomic)ListModel *model;
 
 @property(copy,nonatomic)cellBlock block;
+
 @end

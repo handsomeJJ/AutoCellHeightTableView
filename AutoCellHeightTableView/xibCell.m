@@ -29,6 +29,7 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
 }
+
 -(void)setModel:(ListModel *)model{
     _model = model;
     self.image.image = [UIImage imageNamed:@"iconImage.jpg"];
@@ -37,7 +38,7 @@
     
     self.imageHeight.constant = [self.photoView configImage:model.imagesArr];
     
-    self.commentTabHeight.constant = [self.cmtTableView configWithlikes:model.likesArr comments:model.commentArr];
+    
     __weak typeof(self) weakSelf = self;
     self.cmtTableView.block = ^(NSIndexPath *indexPath){
       
@@ -45,6 +46,7 @@
             weakSelf.block(self,0,indexPath);
         }
     };
+    self.commentTabHeight.constant = [self.cmtTableView configWithlikes:model.likesArr comments:model.commentArr];
     
 }
 - (IBAction)albumOperateAction:(UIButton *)sender {
