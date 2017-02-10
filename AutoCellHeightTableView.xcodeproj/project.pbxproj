@@ -2267,19 +2267,19 @@
 		FA0BEAA21E4D9B9F0076A96B /* View */ = {
 			isa = PBXGroup;
 			children = (
-				FA0BEAA31E4D9B9F0076A96B /* albumOperateView.h */,
-				FA0BEAA41E4D9B9F0076A96B /* albumOperateView.m */,
-				FA0BEAA51E4D9B9F0076A96B /* albumOperateView.xib */,
-				FA0BEAA61E4D9B9F0076A96B /* commentCell.h */,
-				FA0BEAA71E4D9B9F0076A96B /* commentCell.m */,
-				FA0BEAA81E4D9B9F0076A96B /* commentCell.xib */,
-				FA0BEAA91E4D9B9F0076A96B /* commentTableView.h */,
-				FA0BEAAA1E4D9B9F0076A96B /* commentTableView.m */,
-				FA0BEAAB1E4D9B9F0076A96B /* photoView.h */,
-				FA0BEAAC1E4D9B9F0076A96B /* photoView.m */,
 				FA0BEAAD1E4D9B9F0076A96B /* xibCell.h */,
 				FA0BEAAE1E4D9B9F0076A96B /* xibCell.m */,
 				FA0BEAAF1E4D9B9F0076A96B /* xibCell.xib */,
+				FA0BEAA31E4D9B9F0076A96B /* albumOperateView.h */,
+				FA0BEAA41E4D9B9F0076A96B /* albumOperateView.m */,
+				FA0BEAA51E4D9B9F0076A96B /* albumOperateView.xib */,
+				FA0BEAA91E4D9B9F0076A96B /* commentTableView.h */,
+				FA0BEAAA1E4D9B9F0076A96B /* commentTableView.m */,
+				FA0BEAA61E4D9B9F0076A96B /* commentCell.h */,
+				FA0BEAA71E4D9B9F0076A96B /* commentCell.m */,
+				FA0BEAA81E4D9B9F0076A96B /* commentCell.xib */,
+				FA0BEAAB1E4D9B9F0076A96B /* photoView.h */,
+				FA0BEAAC1E4D9B9F0076A96B /* photoView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";

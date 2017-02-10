@@ -36,14 +36,14 @@
     NSInteger count = imagesArr.count;
     CGFloat padding = 5;
     CGFloat imageContentViewWidth = VIEWWIDTH;
-    CGFloat imageWidth = (imageContentViewWidth - padding * 4) / 3;
+    CGFloat imageWidth = (imageContentViewWidth - padding * 2) / 3;
     CGFloat imageHeight = imageWidth;
     
     
     for (int i = 0; i < count; i ++) {
         UIImageView *imageV = [[UIImageView alloc]init];
-        CGFloat imageX = padding + (padding + imageWidth) * (i % 3);
-        CGFloat imageY = padding + (padding + imageHeight) * (i / 3);
+        CGFloat imageX = (padding + imageWidth) * (i % 3);
+        CGFloat imageY = (padding + imageHeight) * (i / 3);
         imageV.frame = CGRectMake(imageX, imageY, imageWidth, imageHeight);
         if (![imagesArr[i] hasPrefix:@"http"]) {
             
@@ -68,11 +68,11 @@
     if (!count) {
         height = 0;
     }else if (count > 0 && count <= 3){
-        height = imageHeight + padding * 2;
+        height = imageHeight;
     }else if (count > 3 && count <= 6){
-        height = imageHeight * 2 + padding * 3;;
+        height = imageHeight * 2 + padding;
     }else{
-        height = imageHeight * 3 + padding * 4;
+        height = imageHeight * 3 + padding * 2;
     }
     return height;
 }
