@@ -83,7 +83,7 @@
 
 - (void)changeFaceSubjectIndex:(NSInteger)subjectIndex
 {
-    [_facePickerView setContentOffset:CGPointMake(subjectIndex*kFacePanelBottomToolBarHeight, 0) animated:YES];
+//    [_facePickerView setContentOffset:CGPointMake(subjectIndex*kFacePanelBottomToolBarHeight, 0) animated:YES];
     
     for (UIView *sub in _facePickerView.subviews) {
         if ([sub isKindOfClass:[UIButton class]]) {

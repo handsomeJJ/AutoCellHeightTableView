@@ -47,7 +47,6 @@
 
     [self.view addSubview:self.tableView];
     
-    [self.view addSubview:self.chatKeyBoard];
     self.title = @"朋友圈";
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:[[YYFPSLabel alloc]initWithFrame:CGRectMake(0, 5, 60, 30)]];
     
@@ -84,7 +83,6 @@
     
     return @[item1, item2, item3, item4];
 }
-
 - (NSArray<FaceThemeModel *> *)chatKeyBoardFacePanelSubjectItems
 {
     return [FaceSourceManager loadFaceSource];
@@ -144,15 +142,7 @@
 -(void)keyBoardWillHide:(NSNotification *)notification{
     NSDictionary *dict = [notification userInfo];
     
-    NSLog(@"--keyBoardWillHide--%@",dict);
-    NSValue *animationDurationValue = [dict objectForKey:UIKeyboardAnimationDurationUserInfoKey];
-    NSTimeInterval animationDuration;
-    [animationDurationValue getValue:&animationDuration];
-    [UIView animateWithDuration:animationDuration animations:^{
-        [self.chatKeyBoard keyboardDownForComment];
-        self.chatKeyBoard.placeHolder = nil;
-    }];
-    
+    NSLog(@"--keyBoardWillHide--%@",dict);    
 }
 -(void)chatKeyBoardSendText:(NSString *)text{
     
@@ -299,9 +289,31 @@
             NSMutableArray *array = currentModel.commentArr;
             NSDictionary *commentDict = array[commentPath.row];
 
-            weakSelf.chatKeyBoard.placeHolder = [NSString stringWithFormat:@"回复 %@",commentDict[@"nickname"]];
-
-            [weakSelf.chatKeyBoard keyboardUpforComment];
+            if ([commentDict[@"nickname"] isEqualToString:@"你帅帅的爹地郭德纲"]) {
+                
+                UIAlertController *alertC = [UIAlertController alertControllerWithTitle:@"确定删除该条评论？" message:@"" preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                   
+                    [array removeObjectAtIndex:commentPath.row];
+                    currentModel.commentArr = array;
+                    cell.model = currentModel;
+                    [weakSelf.tableView reloadRowsAtIndexPaths:@[currentIndex] withRowAnimation:UITableViewRowAnimationNone];
+                    
+                }];
+                UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                    
+                    
+                }];
+                [alertC addAction:action1];
+                [alertC addAction:action2];
+                [self presentViewController:alertC animated:YES completion:nil];
+            }else{
+                weakSelf.chatKeyBoard.placeHolder = [NSString stringWithFormat:@"回复 %@",commentDict[@"nickname"]];
+                
+                [weakSelf.chatKeyBoard keyboardUpforComment];
+            }
+            
+            
         }
         
         
