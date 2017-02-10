@@ -29,20 +29,26 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:[[YYFPSLabel alloc]initWithFrame:CGRectMake(0, 5, 60, 30)]];
 }
 #pragma mark -- delegate
--(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
-    CGFloat height = cell.frame.size.height;
-    [self.cellHeight setObject:@(height) forKey:indexPath];
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    ListModel *model = self.infoArr[indexPath.row];
+    return model.cellHeight;
 }
--(CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    NSNumber *cellHeight = [self.cellHeight objectForKey:indexPath];
-    CGFloat height = cellHeight.floatValue;
-    if (height) {
-        return height;
-    }else
-    
-    return 100;
-}
+
+#warning 采用这种传统方法计算行高容易造成更新指定cell时tableView会上下跳
+//-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+//    CGFloat height = cell.frame.size.height;
+//    [self.cellHeight setObject:@(height) forKey:indexPath];
+//}
+//-(CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath{
+//    
+//    NSNumber *cellHeight = [self.cellHeight objectForKey:indexPath];
+//    CGFloat height = cellHeight.floatValue;
+//    if (height) {
+//        return height;
+//    }else
+//    
+//    return 100;
+//}
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return self.infoArr.count;
 }
@@ -84,9 +90,6 @@
             cell.model = currentModel;
             
             [weakSelf.tableView reloadRowsAtIndexPaths:@[currentIndex] withRowAnimation:UITableViewRowAnimationNone];
-
-            [weakSelf.tableView scrollToRowAtIndexPath:currentIndex atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-            
             
         }else if (tag == 12){
             
@@ -100,8 +103,6 @@
             
             [weakSelf.tableView reloadRowsAtIndexPaths:@[currentIndex] withRowAnimation:UITableViewRowAnimationNone];
 
-            [weakSelf.tableView scrollToRowAtIndexPath:currentIndex atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-            
         }else if(tag == 0){
             
             NSLog(@"评论第--%ld--条回复",commentPath.row);

@@ -12,6 +12,9 @@
 #import "albumOperateView.h"
 #import "commentTableView.h"
 
+#define kScreenWidth ([UIScreen mainScreen].bounds.size.width)
+#define VIEWWIDTH (kScreenWidth - 90)
+
 @interface xibCell ()
 @property (weak, nonatomic) IBOutlet UIImageView *image;
 @property (weak, nonatomic) IBOutlet UILabel *title;
@@ -36,8 +39,13 @@
     self.title.text = model.title;
     self.content.text = model.desc;
     
-    self.imageHeight.constant = [self.photoView configImage:model.imagesArr];
+    CGFloat titleH = [self sizeWithText:model.title font:[UIFont systemFontOfSize:15] maxSize:CGSizeMake(VIEWWIDTH, MAXFLOAT)].height;
+    CGFloat contentH = [self sizeWithText:model.desc font:[UIFont systemFontOfSize:15] maxSize:CGSizeMake(VIEWWIDTH, MAXFLOAT)].height;
     
+    CGFloat photoH = [self.photoView configImage:model.imagesArr];
+    self.imageHeight.constant = photoH;
+    
+    CGFloat cmtH = [self.cmtTableView configWithlikes:model.likesArr comments:model.commentArr];
     
     __weak typeof(self) weakSelf = self;
     self.cmtTableView.block = ^(NSIndexPath *indexPath){
@@ -46,7 +54,12 @@
             weakSelf.block(self,0,indexPath);
         }
     };
-    self.commentTabHeight.constant = [self.cmtTableView configWithlikes:model.likesArr comments:model.commentArr];
+    self.commentTabHeight.constant = cmtH;
+    
+    CGFloat cellHeight = 80 + titleH + contentH + photoH + cmtH;
+    model.cellHeight = cellHeight;
+    
+    NSLog(@"--cellHeight--%f",cellHeight);
     
 }
 - (IBAction)albumOperateAction:(UIButton *)sender {
@@ -94,5 +107,13 @@
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
+}
+-(CGSize)sizeWithText:(NSString *)text font:(UIFont *)font maxSize:(CGSize)maxSize
+{
+    
+    NSDictionary *attrs = @{NSFontAttributeName : font};
+    
+    return [text boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:attrs context:nil].size;
+    
 }
 @end
