@@ -39,8 +39,8 @@
     self.title.text = model.title;
     self.content.text = model.desc;
     
-    CGFloat titleH = [self sizeWithText:model.title font:[UIFont systemFontOfSize:15] maxSize:CGSizeMake(VIEWWIDTH, MAXFLOAT)].height;
-    CGFloat contentH = [self sizeWithText:model.desc font:[UIFont systemFontOfSize:15] maxSize:CGSizeMake(VIEWWIDTH, MAXFLOAT)].height;
+    CGFloat titleH = [self sizeWithText:model.title font:[UIFont systemFontOfSize:15] maxSize:CGSizeMake(VIEWWIDTH - 20, MAXFLOAT)].height;
+    CGFloat contentH = [self sizeWithText:model.desc font:[UIFont systemFontOfSize:15] maxSize:CGSizeMake(VIEWWIDTH - 20, MAXFLOAT)].height;
     
     CGFloat photoH = [self.photoView configImage:model.imagesArr];
     self.imageHeight.constant = photoH;
@@ -56,7 +56,7 @@
     };
     self.commentTabHeight.constant = cmtH;
     
-    CGFloat cellHeight = 80 + titleH + contentH + photoH + cmtH;
+    CGFloat cellHeight = 70 + titleH + contentH + photoH + cmtH;//控件之间的垂直间距加起来70
     model.cellHeight = cellHeight;
     
     NSLog(@"--cellHeight--%f",cellHeight);

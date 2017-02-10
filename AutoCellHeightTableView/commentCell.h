@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface commentCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *topMargin;
 
 -(void)configCellWithDict:(NSDictionary *)dict;
 

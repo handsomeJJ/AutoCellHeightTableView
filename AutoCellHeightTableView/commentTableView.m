@@ -44,7 +44,7 @@
         likeStr = [likeStr stringByAppendingString:@"觉得很赞"];
         self.likeStr = likeStr;
         
-        headHeight = [self sizeWithText:self.likeStr font:[UIFont systemFontOfSize:15] maxSize:CGSizeMake(VIEWWIDTH - 20, MAXFLOAT)].height + 10;
+        headHeight = [self sizeWithText:self.likeStr font:[UIFont systemFontOfSize:15] maxSize:CGSizeMake(VIEWWIDTH - 10, MAXFLOAT)].height + 10;
     }
     
     self.commentArr = commentArr;
@@ -58,7 +58,7 @@
             string = [NSString stringWithFormat:@"%@ 回复 %@: %@",dict[@"nickname"],dict[@"toNickname"],dict[@"content"]];
             
         }
-        cellHeight  += [self sizeWithText:string font:[UIFont systemFontOfSize:15] maxSize:CGSizeMake(VIEWWIDTH - 20, MAXFLOAT)].height;
+        cellHeight  += [self sizeWithText:string font:[UIFont systemFontOfSize:15] maxSize:CGSizeMake(VIEWWIDTH - 10, MAXFLOAT)].height;
         cellHeight += 10;
     }
     
@@ -147,6 +147,11 @@
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     NSDictionary *dict = self.commentArr[indexPath.row];
+    if (!indexPath.row && !self.likeStr) {
+        cell.topMargin.constant = 8;
+    }else{
+        cell.topMargin.constant = 5;
+    }
     [cell configCellWithDict:dict];
     
     return cell;

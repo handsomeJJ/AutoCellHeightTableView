@@ -37,6 +37,7 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <connections>
                 <outlet property="commentLab" destination="cYO-Cq-yH6" id="MVF-oK-7BN"/>
+                <outlet property="topMargin" destination="Qqz-f6-VHq" id="qbx-n6-R2U"/>
             </connections>
         </tableViewCell>
     </objects>

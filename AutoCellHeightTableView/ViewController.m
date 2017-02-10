@@ -11,11 +11,33 @@
 #import "xibCell.h"
 #import "albumOperateView.h"
 #import "YYFPSLabel.h"
+#import "ChatKeyBoard.h"
+#import "FaceSourceManager.h"
+#import "MoreItem.h"
+#import "ChatToolBarItem.h"
+#import "FaceThemeModel.h"
 
-@interface ViewController ()<UITableViewDelegate,UITableViewDataSource>
+//键盘上面的工具条
+#define kChatToolBarHeight              49
+#define kScreenWidth ([UIScreen mainScreen].bounds.size.width)
+#define VIEWWIDTH (kScreenWidth - 90)
+@interface ViewController ()<UITableViewDelegate,UITableViewDataSource,ChatKeyBoardDelegate,ChatKeyBoardDataSource>
 @property(strong,nonatomic)UITableView *tableView;
 @property(strong,nonatomic)NSMutableArray *infoArr;
 @property(strong,nonatomic)NSMutableDictionary *cellHeight;
+
+
+//cell的坐标
+@property (nonatomic,assign)CGRect rectSelected;
+// 评论框架
+@property(strong,nonatomic)ChatKeyBoard *chatKeyBoard;
+// 评论某人  余下评论的高度
+@property(assign,nonatomic)CGFloat restCommentHeight;
+// 当前操作的cell
+@property(strong,nonatomic)NSIndexPath *currentCellIndex;
+// 回复某人的评论
+@property(strong,nonatomic)NSIndexPath *currentCmtIndex;
+
 @end
 
 @implementation ViewController
@@ -24,10 +46,154 @@
     [super viewDidLoad];
 
     [self.view addSubview:self.tableView];
-
+    
+    [self.view addSubview:self.chatKeyBoard];
     self.title = @"朋友圈";
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:[[YYFPSLabel alloc]initWithFrame:CGRectMake(0, 5, 60, 30)]];
+    
+    // 注册键盘通知
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyBoardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyBoardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+    
 }
+#pragma mark -- ChatKeyBoardDataSource
+- (NSArray<MoreItem *> *)chatKeyBoardMorePanelItems
+{
+    MoreItem *item1 = [MoreItem moreItemWithPicName:@"sharemore_location" highLightPicName:nil itemName:@"位置"];
+    MoreItem *item2 = [MoreItem moreItemWithPicName:@"sharemore_pic" highLightPicName:nil itemName:@"图片"];
+    MoreItem *item3 = [MoreItem moreItemWithPicName:@"sharemore_video" highLightPicName:nil itemName:@"拍照"];
+    MoreItem *item4 = [MoreItem moreItemWithPicName:@"sharemore_location" highLightPicName:nil itemName:@"位置"];
+    MoreItem *item5 = [MoreItem moreItemWithPicName:@"sharemore_pic" highLightPicName:nil itemName:@"图片"];
+    MoreItem *item6 = [MoreItem moreItemWithPicName:@"sharemore_video" highLightPicName:nil itemName:@"拍照"];
+    MoreItem *item7 = [MoreItem moreItemWithPicName:@"sharemore_location" highLightPicName:nil itemName:@"位置"];
+    MoreItem *item8 = [MoreItem moreItemWithPicName:@"sharemore_pic" highLightPicName:nil itemName:@"图片"];
+    MoreItem *item9 = [MoreItem moreItemWithPicName:@"sharemore_video" highLightPicName:nil itemName:@"拍照"];
+    return @[item1, item2, item3, item4, item5, item6, item7, item8, item9];
+}
+- (NSArray<ChatToolBarItem *> *)chatKeyBoardToolbarItems
+{
+    ChatToolBarItem *item1 = [ChatToolBarItem barItemWithKind:kBarItemFace normal:@"face" high:@"face_HL" select:@"keyboard"];
+    
+    ChatToolBarItem *item2 = [ChatToolBarItem barItemWithKind:kBarItemVoice normal:@"voice" high:@"voice_HL" select:@"keyboard"];
+    
+    ChatToolBarItem *item3 = [ChatToolBarItem barItemWithKind:kBarItemMore normal:@"more_ios" high:@"more_ios_HL" select:nil];
+    
+    ChatToolBarItem *item4 = [ChatToolBarItem barItemWithKind:kBarItemSwitchBar normal:@"switchDown" high:nil select:nil];
+    return @[item1];
+    
+    return @[item1, item2, item3, item4];
+}
+
+- (NSArray<FaceThemeModel *> *)chatKeyBoardFacePanelSubjectItems
+{
+    return [FaceSourceManager loadFaceSource];
+}
+
+#pragma mark -- chatKeyBoard
+-(ChatKeyBoard *)chatKeyBoard{
+    if (!_chatKeyBoard) {
+        _chatKeyBoard = [ChatKeyBoard keyBoardWithNavgationBarTranslucent:YES];
+        _chatKeyBoard.placeHolder = @"评论";
+        _chatKeyBoard.delegate = self;
+        _chatKeyBoard.dataSource = self;
+        _chatKeyBoard.keyBoardStyle = KeyBoardStyleComment;
+        _chatKeyBoard.allowVoice = NO;
+        _chatKeyBoard.allowMore = NO;
+        _chatKeyBoard.allowSwitchBar = NO;
+        [self.view addSubview:_chatKeyBoard];
+        [self.view bringSubviewToFront:_chatKeyBoard];
+        
+    }
+    return _chatKeyBoard;
+}
+#pragma mark -- 键盘通知
+-(void)keyBoardWillShow:(NSNotification *)notification{
+    
+    NSDictionary *userInfo = [notification userInfo];
+    
+    NSValue *animationDurationValue = [userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];//animationDurationNSTimeInterval
+    
+    NSTimeInterval animationDuration;
+    [animationDurationValue getValue:&animationDuration];
+    
+    if (animationDuration == 0) {
+        NSLog(@"--return--");
+        return;
+    }
+    
+    NSLog(@"--userinfo--%@",userInfo);
+    
+    NSValue *keyBoardValue = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
+    
+    CGRect keyBoardRect = [keyBoardValue CGRectValue];
+    
+    CGFloat keyBoardHeight = keyBoardRect.size.height;
+    
+    
+    CGFloat delta = self.rectSelected.origin.y + self.rectSelected.size.height - ([UIApplication sharedApplication].keyWindow.bounds.size.height - keyBoardHeight - kChatToolBarHeight);
+    
+    CGPoint offset = self.tableView.contentOffset;
+    offset.y += delta;
+    if (offset.y < 0) {
+        offset.y = -64;
+    }
+    [self.tableView setContentOffset:offset animated:YES];
+    [self.chatKeyBoard keyboardUpforComment];
+}
+-(void)keyBoardWillHide:(NSNotification *)notification{
+    NSDictionary *dict = [notification userInfo];
+    
+    NSLog(@"--keyBoardWillHide--%@",dict);
+    NSValue *animationDurationValue = [dict objectForKey:UIKeyboardAnimationDurationUserInfoKey];
+    NSTimeInterval animationDuration;
+    [animationDurationValue getValue:&animationDuration];
+    [UIView animateWithDuration:animationDuration animations:^{
+        [self.chatKeyBoard keyboardDownForComment];
+        self.chatKeyBoard.placeHolder = nil;
+    }];
+    
+}
+-(void)chatKeyBoardSendText:(NSString *)text{
+    
+    NSLog(@"--输入的评论是--%@",text);
+    [self.chatKeyBoard keyboardDownForComment];
+    
+    ListModel *model = self.infoArr[self.currentCellIndex.row];
+    
+    NSDictionary *replyDict = [NSDictionary dictionary];
+    NSMutableArray *commentArr = model.commentArr;
+    
+    if (self.currentCmtIndex) {
+        
+        NSDictionary *dict = commentArr[self.currentCmtIndex.row];
+        
+        replyDict = @{@"nickname":@"你帅帅的爹地郭德纲",
+                       @"toNickname":dict[@"nickname"],
+                       @"content":text};
+    }else{
+        replyDict = @{@"nickname":@"你帅帅的爹地郭德纲",
+                       @"toNickname":@"",
+                       @"content":text};
+    }
+    [commentArr addObject:replyDict];
+    model.commentArr = commentArr;
+    self.infoArr[self.currentCellIndex.row] = model;
+    [self.tableView reloadRowsAtIndexPaths:@[self.currentCellIndex] withRowAnimation:UITableViewRowAnimationNone];
+    
+}
+- (void)chatKeyBoardFacePicked:(ChatKeyBoard *)chatKeyBoard faceStyle:(NSInteger)faceStyle faceName:(NSString *)faceName delete:(BOOL)isDeleteKey{
+    NSLog(@"%@",faceName);
+}
+- (void)chatKeyBoardAddFaceSubject:(ChatKeyBoard *)chatKeyBoard{
+    NSLog(@"%@",chatKeyBoard);
+}
+- (void)chatKeyBoardSetFaceSubject:(ChatKeyBoard *)chatKeyBoard{
+    NSLog(@"%@",chatKeyBoard);
+    
+}
+
+
 #pragma mark -- delegate
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     ListModel *model = self.infoArr[indexPath.row];
@@ -66,10 +232,16 @@
     __weak typeof (self) weakSelf = self;
     cell.block = ^(xibCell *xibCe, NSInteger tag, NSIndexPath *commentPath){
       
+        self.currentCmtIndex = commentPath;
         // 拿到currentModel
         NSIndexPath *currentIndex = [weakSelf.tableView indexPathForCell:xibCe];
-        
+        self.currentCellIndex = currentIndex;
         ListModel *currentModel = weakSelf.infoArr[currentIndex.row];
+        
+        // 当前cell的rect
+        CGRect rectInTableView = [weakSelf.tableView rectForRowAtIndexPath:currentIndex];
+        
+        self.rectSelected = [weakSelf.tableView convertRect:rectInTableView toView:weakSelf.view];
         
         NSLog(@"--%ld--",tag);
         for (UIView *view in [xibCe subviews]) {
@@ -85,7 +257,7 @@
             
             NSLog(@"点赞事件");
             NSMutableArray *likesArr = currentModel.likesArr;
-            [likesArr addObject:@"我是你大爷"];
+            [likesArr addObject:@"你帅帅的爹地郭德纲"];
             currentModel.likesArr = likesArr;
             cell.model = currentModel;
             
@@ -94,19 +266,17 @@
         }else if (tag == 12){
             
             NSLog(@"评论楼主");
-            NSDictionary *dict = @{@"nickname":@"吴秀秀秀秀秀秀秀波",@"toNickname":@"",@"content":@"楼主长的真TM帅-----人见人爱，花见花开，车见车爆胎=="};
-            
-            NSMutableArray *commentArr = currentModel.commentArr;
-            [commentArr addObject:dict];
-            currentModel.commentArr = commentArr;
-            cell.model = currentModel;
-            
-            [weakSelf.tableView reloadRowsAtIndexPaths:@[currentIndex] withRowAnimation:UITableViewRowAnimationNone];
+            weakSelf.chatKeyBoard.placeHolder = @"评论";
+            [weakSelf.chatKeyBoard keyboardUpforComment];
 
         }else if(tag == 0){
-            
             NSLog(@"评论第--%ld--条回复",commentPath.row);
-            
+            NSMutableArray *array = currentModel.commentArr;
+            NSDictionary *commentDict = array[commentPath.row];
+
+            weakSelf.chatKeyBoard.placeHolder = [NSString stringWithFormat:@"回复 %@",commentDict[@"nickname"]];
+
+            [weakSelf.chatKeyBoard keyboardUpforComment];
         }
         
         
@@ -114,16 +284,15 @@
     
     return cell;
 }
+
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     
-    // 移除opView
-    
+    // 移除键盘
+    [self.chatKeyBoard keyboardDownForComment];
     
 }
--(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    
-    // 移除opView
-    
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    [self.chatKeyBoard keyboardDownForComment];
 }
 #pragma mark -- get
 -(UITableView *)tableView{
@@ -168,7 +337,7 @@
                         
             model.imagesArr = [[imagesArr subarrayWithRange:NSMakeRange(0, arc4random() % 10)]mutableCopy];
             
-            if (i % 2) {
+            if (i) {
                 NSArray *array = @[@"宋小宝",@"吴秀波",@"郭麒麟"];
                 model.likesArr = [array mutableCopy];
             }else{
@@ -182,7 +351,7 @@
             NSDictionary *dict3 = @{@"nickname":@"常远",@"toNickname":@"",@"content":@"你们都是大傻逼，谁也别让这谁---"};
             NSDictionary *dict4 = @{@"nickname":@"岳云鹏",@"toNickname":@"",@"content":@"人的精神和外貌都改变成这样了，随时随地精神百倍！这些人现在干点啥都发朋友圈，简直都想屏蔽她们---"};
             NSArray *commentArr = [NSArray arrayWithObjects:dict2,dict1,dict,dict3,dict4, nil];
-            if (i % 3) {
+            if (i) {
                 model.commentArr = [commentArr mutableCopy];
             }else{
                 model.commentArr = [NSMutableArray array];
@@ -195,6 +364,18 @@
     return _infoArr;
 }
 
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    NSLog(@"CommentViewController dealloc");
+}
+-(CGSize)sizeWithText:(NSString *)text font:(UIFont *)font maxSize:(CGSize)maxSize
+{
+    
+    NSDictionary *attrs = @{NSFontAttributeName : font};
+    
+    return [text boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:attrs context:nil].size;
+    
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
