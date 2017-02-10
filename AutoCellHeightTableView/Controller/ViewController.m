@@ -196,15 +196,28 @@
 
 #pragma mark -- delegate
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+//    实测从缓存读取和数据源读取影响都不大啊
+//    NSNumber *height = [self.cellHeight objectForKey:indexPath];
+//    CGFloat cellHeight = height.floatValue;
+//    if(cellHeight)
+//    {
+//        NSLog(@"--indexPath--%ld cellHeight-%f",indexPath.row, cellHeight);
+//        return cellHeight;
+//    }else{
+//        ListModel *model = self.infoArr[indexPath.row];
+//        return model.cellHeight;
+//    }
+    
     ListModel *model = self.infoArr[indexPath.row];
     return model.cellHeight;
 }
 
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+     NSNumber *height = @(cell.frame.size.height);
+    [self.cellHeight setObject:height forKey:indexPath];
+}
 #warning 采用这种传统方法计算行高容易造成更新指定cell时tableView会上下跳
-//-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
-//    CGFloat height = cell.frame.size.height;
-//    [self.cellHeight setObject:@(height) forKey:indexPath];
-//}
 //-(CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath{
 //    
 //    NSNumber *cellHeight = [self.cellHeight objectForKey:indexPath];
@@ -253,17 +266,29 @@
         if (tag == 10) {
             
             
-        }else if (tag == 11){
+        }else if (tag == 1){
             
             NSLog(@"点赞事件");
             NSMutableArray *likesArr = currentModel.likesArr;
             [likesArr addObject:@"你帅帅的爹地郭德纲"];
             currentModel.likesArr = likesArr;
+            currentModel.isLike = YES;
             cell.model = currentModel;
             
             [weakSelf.tableView reloadRowsAtIndexPaths:@[currentIndex] withRowAnimation:UITableViewRowAnimationNone];
             
-        }else if (tag == 12){
+        }else if (tag == 2){
+            NSLog(@"取消赞--");
+            NSMutableArray *likesArr = currentModel.likesArr;
+            [likesArr removeObject:@"你帅帅的爹地郭德纲"];
+            currentModel.likesArr = likesArr;
+            currentModel.isLike = NO;
+            cell.model = currentModel;
+            
+            [weakSelf.tableView reloadRowsAtIndexPaths:@[currentIndex] withRowAnimation:UITableViewRowAnimationNone];
+            
+        }
+        else if (tag == 3){
             
             NSLog(@"评论楼主");
             weakSelf.chatKeyBoard.placeHolder = @"评论";
@@ -305,6 +330,12 @@
     }
     return _tableView;
 }
+-(NSMutableDictionary *)cellHeight{
+    if (!_cellHeight) {
+        _cellHeight = [NSMutableDictionary dictionary];
+    }
+    return _cellHeight;
+}
 -(NSMutableArray *)infoArr{
     if (!_infoArr) {
         _infoArr = [NSMutableArray array];
@@ -326,8 +357,8 @@
                                  ];
         NSArray *imagesArr = @[@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"];
         
-        NSArray *name = @[@"特立独行的猪",@"小岳岳",@"大长今",@"文常",@"宋小宝",@"吴秀波",@"郭麒麟"];
-        for (int i = 0; i < 10; i++)
+        NSArray *name = @[@"特立独行的猪",@"小岳岳",@"你帅帅的爹地郭德纲",@"常远",@"宋小宝",@"吴秀波",@"郭麒麟"];
+        for (int i = 0; i < 100; i++)
         {
             ListModel *model = [[ListModel alloc] init];
             NSInteger index = (arc4random()%(string.length / 20)) * 20;

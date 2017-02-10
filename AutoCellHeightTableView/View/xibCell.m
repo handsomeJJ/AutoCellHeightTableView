@@ -58,9 +58,7 @@
     
     CGFloat cellHeight = 70 + titleH + contentH + photoH + cmtH;//控件之间的垂直间距加起来70
     model.cellHeight = cellHeight;
-    
-    NSLog(@"--cellHeight--%f",cellHeight);
-    
+        
 }
 - (IBAction)albumOperateAction:(UIButton *)sender {
     
@@ -76,7 +74,7 @@
             CGFloat albumOperateY = CGRectGetMaxY(self.albumOperateBtn.frame) - 30;
             CGFloat albumOperateX = CGRectGetMinX(self.albumOperateBtn.frame) - 180;
             _opView = [albumOperateView showOperateView];
-            
+            _opView.isLike = self.model.isLike;
             _opView.frame = CGRectMake(albumOperateX, albumOperateY, 160, 40);
 
             [self addSubview:_opView];
@@ -86,15 +84,15 @@
                 
                 NSLog(@"--%ld--",(long)sender.tag);
                 
-                if (sender.tag == 1) {
-                    // 点赞
+                if (sender.tag == 1 || sender.tag == 2) {
+                    // 点赞--取消赞
                     if (weakSelf.block) {
-                        weakSelf.block(weakSelf,11,nil);
+                        weakSelf.block(weakSelf,sender.tag,nil);
                     }
                 }else if(sender.tag == 3){
                     // 评论
                     if (weakSelf.block) {
-                        weakSelf.block(weakSelf,12,nil);
+                        weakSelf.block(weakSelf,sender.tag,nil);
                     }
                 }
                 

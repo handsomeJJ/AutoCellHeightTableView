@@ -31,7 +31,6 @@
 -(CGFloat)configImage:(NSMutableArray *)imagesArr{
     
     self.imageArr = imagesArr;
-    NSLog(@"--%@--",imagesArr);
     
     NSInteger count = imagesArr.count;
     CGFloat padding = 5;

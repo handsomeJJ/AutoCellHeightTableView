@@ -14,6 +14,8 @@ typedef void (^btnBlock)(UIButton *sender);
 
 @property(copy,nonatomic)btnBlock block;
 
+@property(assign,nonatomic)BOOL isLike;
+
 +(instancetype)showOperateView;
 
 
