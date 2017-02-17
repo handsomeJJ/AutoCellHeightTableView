@@ -11,7 +11,7 @@
 #import "UIImageView+WebCache.h"
 
 #define kScreenWidth ([UIScreen mainScreen].bounds.size.width)
-#define VIEWWIDTH (kScreenWidth - 90)
+#define VIEWWIDTH (kScreenWidth - 70)
 
 @interface photoView ()<SDPhotoBrowserDelegate>
 @property(strong,nonatomic)NSMutableArray *imageArr;
@@ -77,15 +77,16 @@
 }
 
 -(void)tapAction:(UITapGestureRecognizer *)sender{
-    
     UIImageView *imageV = (UIImageView *)sender.view;
-    
     SDPhotoBrowser *browser = [SDPhotoBrowser new];
     browser.delegate = self;
     browser.currentImageIndex = imageV.tag;
     browser.imageCount = self.imageArr.count;
     browser.sourceImagesContainerView = self;
     [browser show];
+    
+    // 通知下退出键盘
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"TAGIMAGE" object:nil];
 }
 #pragma mark - SDPhotoBrowserDelegate
 

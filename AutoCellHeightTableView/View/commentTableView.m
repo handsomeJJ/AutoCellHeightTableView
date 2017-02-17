@@ -10,7 +10,7 @@
 #import "commentCell.h"
 
 #define kScreenWidth ([UIScreen mainScreen].bounds.size.width)
-#define VIEWWIDTH (kScreenWidth - 90)
+#define VIEWWIDTH (kScreenWidth - 70)
 
 @interface commentTableView ()<UITableViewDelegate,UITableViewDataSource>
 @property(strong,nonatomic)UITableView *tableView;
@@ -188,11 +188,8 @@
 }
 -(CGSize)sizeWithText:(NSString *)text font:(UIFont *)font maxSize:(CGSize)maxSize
 {
-    
     NSDictionary *attrs = @{NSFontAttributeName : font};
-    
     return [text boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:attrs context:nil].size;
-    
 }
 
 

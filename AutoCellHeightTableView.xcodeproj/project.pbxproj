@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FA09B34F1E55523B00E52D0F /* UIScrollView+_MJTouches.m in Sources */ = {isa = PBXBuildFile; fileRef = FA09B34E1E55523B00E52D0F /* UIScrollView+_MJTouches.m */; };
 		FA0BEAB31E4D9B9F0076A96B /* NSString+Emoji.m in Sources */ = {isa = PBXBuildFile; fileRef = FA0BE8981E4D9B9E0076A96B /* NSString+Emoji.m */; };
 		FA0BEAB41E4D9B9F0076A96B /* ChatKeyBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = FA0BE89A1E4D9B9E0076A96B /* ChatKeyBoard.m */; };
 		FA0BEAB51E4D9B9F0076A96B /* Delete_ios7@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FA0BE89E1E4D9B9E0076A96B /* Delete_ios7@2x.png */; };
@@ -341,6 +342,7 @@
 		FA0BEBFE1E4D9BA00076A96B /* xibCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FA0BEAAE1E4D9B9F0076A96B /* xibCell.m */; };
 		FA0BEBFF1E4D9BA00076A96B /* xibCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA0BEAAF1E4D9B9F0076A96B /* xibCell.xib */; };
 		FA0BEC001E4D9BA00076A96B /* ListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FA0BEAB21E4D9B9F0076A96B /* ListModel.m */; };
+		FA0D147B1E52E3AF00EADE6A /* MJAlbumOpreationView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA0D147A1E52E3AF00EADE6A /* MJAlbumOpreationView.m */; };
 		FA23ABBB1E48523100231800 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FA23ABBA1E48523100231800 /* main.m */; };
 		FA23ABBE1E48523100231800 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FA23ABBD1E48523100231800 /* AppDelegate.m */; };
 		FA23ABC41E48523100231800 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA23ABC21E48523100231800 /* Main.storyboard */; };
@@ -379,6 +381,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FA09B34D1E55523B00E52D0F /* UIScrollView+_MJTouches.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+_MJTouches.h"; sourceTree = "<group>"; };
+		FA09B34E1E55523B00E52D0F /* UIScrollView+_MJTouches.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+_MJTouches.m"; sourceTree = "<group>"; };
 		FA0BE8971E4D9B9E0076A96B /* NSString+Emoji.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Emoji.h"; sourceTree = "<group>"; };
 		FA0BE8981E4D9B9E0076A96B /* NSString+Emoji.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Emoji.m"; sourceTree = "<group>"; };
 		FA0BE8991E4D9B9E0076A96B /* ChatKeyBoard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatKeyBoard.h; sourceTree = "<group>"; };
@@ -777,9 +781,9 @@
 		FA0BEA9E1E4D9B9F0076A96B /* YYWeakProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYWeakProxy.m; sourceTree = "<group>"; };
 		FA0BEAA01E4D9B9F0076A96B /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		FA0BEAA11E4D9B9F0076A96B /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		FA0BEAA31E4D9B9F0076A96B /* albumOperateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = albumOperateView.h; sourceTree = "<group>"; };
-		FA0BEAA41E4D9B9F0076A96B /* albumOperateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = albumOperateView.m; sourceTree = "<group>"; };
-		FA0BEAA51E4D9B9F0076A96B /* albumOperateView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = albumOperateView.xib; sourceTree = "<group>"; };
+		FA0BEAA31E4D9B9F0076A96B /* albumOperateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = albumOperateView.h; path = View/albumOperateView.h; sourceTree = "<group>"; };
+		FA0BEAA41E4D9B9F0076A96B /* albumOperateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = albumOperateView.m; path = View/albumOperateView.m; sourceTree = "<group>"; };
+		FA0BEAA51E4D9B9F0076A96B /* albumOperateView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = albumOperateView.xib; path = View/albumOperateView.xib; sourceTree = "<group>"; };
 		FA0BEAA61E4D9B9F0076A96B /* commentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = commentCell.h; sourceTree = "<group>"; };
 		FA0BEAA71E4D9B9F0076A96B /* commentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = commentCell.m; sourceTree = "<group>"; };
 		FA0BEAA81E4D9B9F0076A96B /* commentCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = commentCell.xib; sourceTree = "<group>"; };
@@ -792,6 +796,8 @@
 		FA0BEAAF1E4D9B9F0076A96B /* xibCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = xibCell.xib; sourceTree = "<group>"; };
 		FA0BEAB11E4D9B9F0076A96B /* ListModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListModel.h; sourceTree = "<group>"; };
 		FA0BEAB21E4D9B9F0076A96B /* ListModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListModel.m; sourceTree = "<group>"; };
+		FA0D14791E52E3AF00EADE6A /* MJAlbumOpreationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJAlbumOpreationView.h; sourceTree = "<group>"; };
+		FA0D147A1E52E3AF00EADE6A /* MJAlbumOpreationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJAlbumOpreationView.m; sourceTree = "<group>"; };
 		FA23ABB61E48523100231800 /* AutoCellHeightTableView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AutoCellHeightTableView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA23ABBA1E48523100231800 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		FA23ABBC1E48523100231800 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -2260,6 +2266,8 @@
 			children = (
 				FA0BEAA01E4D9B9F0076A96B /* ViewController.h */,
 				FA0BEAA11E4D9B9F0076A96B /* ViewController.m */,
+				FA09B34D1E55523B00E52D0F /* UIScrollView+_MJTouches.h */,
+				FA09B34E1E55523B00E52D0F /* UIScrollView+_MJTouches.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2270,9 +2278,8 @@
 				FA0BEAAD1E4D9B9F0076A96B /* xibCell.h */,
 				FA0BEAAE1E4D9B9F0076A96B /* xibCell.m */,
 				FA0BEAAF1E4D9B9F0076A96B /* xibCell.xib */,
-				FA0BEAA31E4D9B9F0076A96B /* albumOperateView.h */,
-				FA0BEAA41E4D9B9F0076A96B /* albumOperateView.m */,
-				FA0BEAA51E4D9B9F0076A96B /* albumOperateView.xib */,
+				FA0D14791E52E3AF00EADE6A /* MJAlbumOpreationView.h */,
+				FA0D147A1E52E3AF00EADE6A /* MJAlbumOpreationView.m */,
 				FA0BEAA91E4D9B9F0076A96B /* commentTableView.h */,
 				FA0BEAAA1E4D9B9F0076A96B /* commentTableView.m */,
 				FA0BEAA61E4D9B9F0076A96B /* commentCell.h */,
@@ -2328,6 +2335,9 @@
 		FA23ABB91E48523100231800 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				FA0BEAA31E4D9B9F0076A96B /* albumOperateView.h */,
+				FA0BEAA41E4D9B9F0076A96B /* albumOperateView.m */,
+				FA0BEAA51E4D9B9F0076A96B /* albumOperateView.xib */,
 				FA23ABBC1E48523100231800 /* AppDelegate.h */,
 				FA23ABBD1E48523100231800 /* AppDelegate.m */,
 				FA9CBEE11E4ACD90007D5BCF /* Foundation+Log.m */,
@@ -2809,6 +2819,7 @@
 				FA0BEBF11E4D9BA00076A96B /* YYTextWeakProxy.m in Sources */,
 				FA0BEBBB1E4D9BA00076A96B /* FaceSourceManager.m in Sources */,
 				FA0BEBBF1E4D9BA00076A96B /* ChatToolBar.m in Sources */,
+				FA0D147B1E52E3AF00EADE6A /* MJAlbumOpreationView.m in Sources */,
 				FA0BEBFA1E4D9BA00076A96B /* commentCell.m in Sources */,
 				FA0BEBE11E4D9BA00076A96B /* YYTextRunDelegate.m in Sources */,
 				FA0BEBE51E4D9BA00076A96B /* NSData+YYAdd.m in Sources */,
@@ -2820,6 +2831,7 @@
 				FA0BEBD81E4D9BA00076A96B /* YYTextKeyboardManager.m in Sources */,
 				FA0BEBCF1E4D9BA00076A96B /* UIImage+GIF.m in Sources */,
 				FA0BEBD91E4D9BA00076A96B /* YYTextLayout.m in Sources */,
+				FA09B34F1E55523B00E52D0F /* UIScrollView+_MJTouches.m in Sources */,
 				FA0BEBB21E4D9BA00076A96B /* ChatToolBarItem.m in Sources */,
 				FA0BEBBE1E4D9BA00076A96B /* MorePanel.m in Sources */,
 				FA0BEBE41E4D9BA00076A96B /* NSBundle+YYAdd.m in Sources */,

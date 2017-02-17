@@ -11,10 +11,13 @@
 
 typedef void (^cellBlock)(xibCell *cell, NSInteger tag, NSIndexPath *indexPath);
 
+typedef void (^comentBlock)(xibCell *cell, UIButton *button);
+
 @interface xibCell : UITableViewCell
 
 @property(strong,nonatomic)ListModel *model;
 
 @property(copy,nonatomic)cellBlock block;
+@property(copy,nonatomic)comentBlock commentBlock;
 
 @end

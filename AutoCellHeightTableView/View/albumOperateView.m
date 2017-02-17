@@ -28,8 +28,6 @@
         [self.likeBtn setTitle:@"赞" forState:UIControlStateNormal];
         self.likeBtn.tag = 1;
     }
-    
-    
 }
 - (IBAction)likeAction:(UIButton *)sender {
     

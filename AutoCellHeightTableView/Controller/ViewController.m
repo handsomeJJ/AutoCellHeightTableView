@@ -16,17 +16,18 @@
 #import "MoreItem.h"
 #import "ChatToolBarItem.h"
 #import "FaceThemeModel.h"
+#import "MJAlbumOpreationView.h"
 
 //键盘上面的工具条
 #define kChatToolBarHeight              49
 #define kScreenWidth ([UIScreen mainScreen].bounds.size.width)
 #define VIEWWIDTH (kScreenWidth - 90)
-@interface ViewController ()<UITableViewDelegate,UITableViewDataSource,ChatKeyBoardDelegate,ChatKeyBoardDataSource>
+@interface ViewController ()<UITableViewDelegate,UITableViewDataSource,ChatKeyBoardDelegate,ChatKeyBoardDataSource,MJAlbumOpreationViewDelegate>
 @property(strong,nonatomic)UITableView *tableView;
 @property(strong,nonatomic)NSMutableArray *infoArr;
 @property(strong,nonatomic)NSMutableDictionary *cellHeight;
-
-
+// 评价 点赞 view
+@property(strong,nonatomic)MJAlbumOpreationView *albumOperationView;
 //cell的坐标
 @property (nonatomic,assign)CGRect rectSelected;
 // 评论框架
@@ -55,6 +56,8 @@
     
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyBoardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     
+    // 查看大图退出键盘
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyBoardDown) name:@"TAGIMAGE" object:nil];
 }
 #pragma mark -- ChatKeyBoardDataSource
 - (NSArray<MoreItem *> *)chatKeyBoardMorePanelItems
@@ -119,9 +122,6 @@
         NSLog(@"--return--");
         return;
     }
-    
-    NSLog(@"--userinfo--%@",userInfo);
-    
     NSValue *keyBoardValue = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
     
     CGRect keyBoardRect = [keyBoardValue CGRectValue];
@@ -130,7 +130,7 @@
     
     
     CGFloat delta = self.rectSelected.origin.y + self.rectSelected.size.height - ([UIApplication sharedApplication].keyWindow.bounds.size.height - keyBoardHeight - kChatToolBarHeight);
-    
+    NSLog(@"--delta==%f",delta);
     CGPoint offset = self.tableView.contentOffset;
     offset.y += delta;
     if (offset.y < 0) {
@@ -152,7 +152,8 @@
     ListModel *model = self.infoArr[self.currentCellIndex.row];
     
     NSDictionary *replyDict = [NSDictionary dictionary];
-    NSMutableArray *commentArr = model.commentArr;
+    NSMutableArray *commentArr = [NSMutableArray array];
+    commentArr = model.commentArr;
     
     if (self.currentCmtIndex) {
         
@@ -233,6 +234,28 @@
     cell.model = model;
 
     __weak typeof (self) weakSelf = self;
+    
+    // 评论点赞block
+    cell.commentBlock = ^(xibCell *xibCe, UIButton *button){
+        if(weakSelf.albumOperationView.shouldShowed == YES){
+            [weakSelf.albumOperationView dismiss];
+            return;
+        }
+        // 拿到currentModel
+        NSIndexPath *currentIndex = [weakSelf.tableView indexPathForCell:xibCe];
+        self.currentCellIndex = currentIndex;
+//        ListModel *currentModel = weakSelf.infoArr[currentIndex.row];
+        // 当前cell的rect
+        CGRect rectInTableView = [weakSelf.tableView rectForRowAtIndexPath:indexPath];
+        self.rectSelected = [weakSelf.tableView convertRect:rectInTableView toView:weakSelf.view];
+        CGFloat originY = rectInTableView.origin.y + button.frame.origin.y;
+        CGRect targeRect = CGRectMake(button.frame.origin.x, originY, CGRectGetWidth(button.frame), CGRectGetHeight(button.frame));
+        
+        [weakSelf.albumOperationView showAtView:self.tableView rect:targeRect];
+        
+    };
+    
+    // 点击评论列表回复-的block
     cell.block = ^(xibCell *xibCe, NSInteger tag, NSIndexPath *commentPath){
       
         self.currentCmtIndex = commentPath;
@@ -240,95 +263,64 @@
         NSIndexPath *currentIndex = [weakSelf.tableView indexPathForCell:xibCe];
         self.currentCellIndex = currentIndex;
         ListModel *currentModel = weakSelf.infoArr[currentIndex.row];
-        
         // 当前cell的rect
         CGRect rectInTableView = [weakSelf.tableView rectForRowAtIndexPath:currentIndex];
         
         self.rectSelected = [weakSelf.tableView convertRect:rectInTableView toView:weakSelf.view];
         
         NSLog(@"--%ld--",tag);
-        for (UIView *view in [xibCe subviews]) {
-            if ([view isKindOfClass:[albumOperateView class]]) {
-                [view removeFromSuperview];
-
-            }
-        }
-        if (tag == 10) {
-            
-            
-        }else if (tag == 1){
-            
-            NSLog(@"点赞事件");
-            NSMutableArray *likesArr = currentModel.likesArr;
-            [likesArr addObject:@"你帅帅的爹地郭德纲"];
-            currentModel.likesArr = likesArr;
-            currentModel.isLike = YES;
-            cell.model = currentModel;
-            
-            [weakSelf.tableView reloadRowsAtIndexPaths:@[currentIndex] withRowAnimation:UITableViewRowAnimationNone];
-            
-        }else if (tag == 2){
-            NSLog(@"取消赞--");
-            NSMutableArray *likesArr = currentModel.likesArr;
-            [likesArr removeObject:@"你帅帅的爹地郭德纲"];
-            currentModel.likesArr = likesArr;
-            currentModel.isLike = NO;
-            cell.model = currentModel;
-            
-            [weakSelf.tableView reloadRowsAtIndexPaths:@[currentIndex] withRowAnimation:UITableViewRowAnimationNone];
-            
-        }
-        else if (tag == 3){
-            
-            NSLog(@"评论楼主");
-            weakSelf.chatKeyBoard.placeHolder = @"评论";
-            [weakSelf.chatKeyBoard keyboardUpforComment];
-
-        }else if(tag == 0){
-            NSLog(@"评论第--%ld--条回复",commentPath.row);
+        
+        if (!tag) {
             NSMutableArray *array = currentModel.commentArr;
             NSDictionary *commentDict = array[commentPath.row];
-
-            if ([commentDict[@"nickname"] isEqualToString:@"你帅帅的爹地郭德纲"]) {
-                
-                UIAlertController *alertC = [UIAlertController alertControllerWithTitle:@"确定删除该条评论？" message:@"" preferredStyle:UIAlertControllerStyleAlert];
-                UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                   
-                    [array removeObjectAtIndex:commentPath.row];
-                    currentModel.commentArr = array;
-                    cell.model = currentModel;
-                    [weakSelf.tableView reloadRowsAtIndexPaths:@[currentIndex] withRowAnimation:UITableViewRowAnimationNone];
-                    
-                }];
-                UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-                    
-                    
-                }];
-                [alertC addAction:action1];
-                [alertC addAction:action2];
-                [self presentViewController:alertC animated:YES completion:nil];
-            }else{
-                weakSelf.chatKeyBoard.placeHolder = [NSString stringWithFormat:@"回复 %@",commentDict[@"nickname"]];
-                
-                [weakSelf.chatKeyBoard keyboardUpforComment];
-            }
+            weakSelf.chatKeyBoard.placeHolder = [NSString stringWithFormat:@"回复 %@",commentDict[@"nickname"]];
             
-            
+            [weakSelf.chatKeyBoard keyboardUpforComment];
         }
-        
         
     };
     
     return cell;
 }
-
--(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+#pragma mark -- MJAlbumOpreationViewDelegate
+-(void)albumOperationView:(MJAlbumOpreationView *)albumOperationView didClickOfType:(MJAlbumOperationType)operationType{
+    if (operationType == MJAlbumOperationTypeLike) {
+        // 点赞
+        NSLog(@"--点赞--");
+        ListModel *currentModel = self.infoArr[self.currentCellIndex.row];
+        NSMutableArray *likesArr = currentModel.likesArr;
+        [likesArr addObject:@"你帅帅的爹地郭德纲"];
+        currentModel.likesArr = likesArr;
+        currentModel.isLike = YES;
+        
+        [self.tableView reloadRowsAtIndexPaths:@[self.currentCellIndex] withRowAnimation:UITableViewRowAnimationNone];
+        
+    }else{
+        // 评论
+        NSLog(@"--评论--");
+        self.chatKeyBoard.placeHolder = @"评论";
+        [self.chatKeyBoard keyboardUpforComment];
+    }
     
-    // 移除键盘
-    [self.chatKeyBoard keyboardDownForComment];
-    
+    [albumOperationView dismiss];
 }
+
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    [self.chatKeyBoard keyboardDownForComment];
+    [self.albumOperationView dismiss];
+}
+-(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    // 判断点的X是否在空白处
+//    CGPoint touchPoint = [[touches anyObject]locationInView:self.tableView];
+//
+//    if (touchPoint.x <= 60) {
+//        [self.chatKeyBoard keyboardDownForComment];
+//    }
+    [self.chatKeyBoard keyboardDownForComment];
+
+    [self.albumOperationView dismiss];
+}
+-(void)keyBoardDown{
     [self.chatKeyBoard keyboardDownForComment];
 }
 #pragma mark -- get
@@ -370,7 +362,7 @@
         NSArray *imagesArr = @[@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"];
         
         NSArray *name = @[@"特立独行的猪",@"小岳岳",@"你帅帅的爹地郭德纲",@"常远",@"宋小宝",@"吴秀波",@"郭麒麟"];
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < 10; i++)
         {
             ListModel *model = [[ListModel alloc] init];
             NSInteger index = (arc4random()%(string.length / 20)) * 20;
@@ -406,7 +398,13 @@
     }
     return _infoArr;
 }
-
+-(MJAlbumOpreationView *)albumOperationView{
+    if (!_albumOperationView) {
+        _albumOperationView = [MJAlbumOpreationView initialOperationView];
+        _albumOperationView.albumOperationViewDelegate = self;
+    }
+    return _albumOperationView;
+}
 -(void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     NSLog(@"CommentViewController dealloc");
