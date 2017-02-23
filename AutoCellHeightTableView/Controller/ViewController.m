@@ -17,6 +17,7 @@
 #import "ChatToolBarItem.h"
 #import "FaceThemeModel.h"
 #import "MJAlbumOpreationView.h"
+#import "publishNewViewController.h"
 
 //键盘上面的工具条
 #define kChatToolBarHeight              49
@@ -49,7 +50,9 @@
     [self.view addSubview:self.tableView];
     
     self.title = @"朋友圈";
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:[[YYFPSLabel alloc]initWithFrame:CGRectMake(0, 5, 60, 30)]];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:[[YYFPSLabel alloc]initWithFrame:CGRectMake(0, 5, 60, 30)]];
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(publishNew)];
     
     // 注册键盘通知
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyBoardWillShow:) name:UIKeyboardWillShowNotification object:nil];
@@ -58,6 +61,27 @@
     
     // 查看大图退出键盘
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyBoardDown) name:@"TAGIMAGE" object:nil];
+    
+    // 发布新动态
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(bigNews:) name:@"PUBLISHNEW" object:nil];
+}
+-(void)publishNew{
+    [self.navigationController pushViewController:[publishNewViewController new] animated:YES];
+}
+-(void)bigNews:(NSNotification *)note{
+    
+    NSDictionary *dict = note.userInfo;
+    NSLog(@"--收到的新动态-%@",dict);
+    ListModel *model = [[ListModel alloc]init];
+    model.imagesArr = dict[@"imagesArr"];
+    model.desc = dict[@"desc"];
+    model.title = dict[@"title"];
+    model.likesArr = dict[@"likesArr"];
+    model.commentArr = dict[@"commentArr"];
+    [self.infoArr insertObject:model atIndex:0];
+    
+    [self.tableView reloadData];
+    
 }
 #pragma mark -- ChatKeyBoardDataSource
 - (NSArray<MoreItem *> *)chatKeyBoardMorePanelItems

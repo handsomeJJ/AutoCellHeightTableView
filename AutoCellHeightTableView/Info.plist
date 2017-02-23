@@ -40,6 +40,8 @@
 		<true/>
 	</dict>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string></string>
+	<string>允许使用相册吗</string>
+	<key>NSCameraUsageDescription</key>
+	<string>允许使用相机吗</string>
 </dict>
 </plist>

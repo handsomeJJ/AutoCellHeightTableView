@@ -41,6 +41,9 @@
     CGFloat titleH = [self sizeWithText:model.title font:[UIFont systemFontOfSize:15] maxSize:CGSizeMake(VIEWWIDTH, MAXFLOAT)].height;
     CGFloat contentH = [self sizeWithText:model.desc font:[UIFont systemFontOfSize:15] maxSize:CGSizeMake(VIEWWIDTH, MAXFLOAT)].height;
 
+    NSLog(@"contentH = %f", contentH);
+    
+    
     CGFloat photoH = [self.photoView configImage:model.imagesArr];
     self.imageHeight.constant = photoH;
     
