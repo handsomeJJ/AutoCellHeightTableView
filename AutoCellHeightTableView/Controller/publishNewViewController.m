@@ -39,7 +39,10 @@
     [self configUI];
 
 }
+- (void)dealloc{
 
+    [HX_AssetManager sharedManager].selectedPhotos = nil;
+}
 -(void)configUI{
     self.view.backgroundColor = [UIColor whiteColor];
     self.title = @"发布";
@@ -64,7 +67,7 @@
     CGFloat photoVY = CGRectGetMaxY(textView.frame)+padding+64;
     HX_AddPhotoView *photoView = [[HX_AddPhotoView alloc]initWithMaxPhotoNum:9 WithSelectType:SelectPhoto];
     photoView.frame = CGRectMake(padding, photoVY, kScreenWidth - padding*2, 0);
-    photoView.customName = @"circleDemo";
+//    photoView.customName = @"circleDemo";
     photoView.lineNum = 3;
     self.photoView = photoView;
     [self.bgScrollV addSubview:photoView];

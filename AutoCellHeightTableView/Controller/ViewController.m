@@ -65,7 +65,13 @@
     // 发布新动态
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(bigNews:) name:@"PUBLISHNEW" object:nil];
 }
+- (void)viewWillAppear:(BOOL)animated{
+    
+    [self keyBoardDown];
+}
 -(void)publishNew{
+    
+    [self keyBoardDown];
     [self.navigationController pushViewController:[publishNewViewController new] animated:YES];
 }
 -(void)bigNews:(NSNotification *)note{
@@ -81,6 +87,7 @@
     [self.infoArr insertObject:model atIndex:0];
     
     [self.tableView reloadData];
+    [self.tableView scrollsToTop];
     
 }
 #pragma mark -- ChatKeyBoardDataSource
